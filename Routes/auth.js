@@ -13,7 +13,7 @@ import {
   verifyOTP,
   resetPassword,
   ChangePassword,
-} from "../controllers/authController.js";
+} from "../Controllers/authController.js";
 
 const router = Router();
 const JWT_SECRET = "Thisisasecretkey";
