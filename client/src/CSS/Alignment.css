@@ -1,0 +1,28 @@
+.d-flex {
+  display: flex;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+/* BLOCK */
+.d-block{
+    display: block;
+}
+
+.center {
+  text-align: center;
+}
