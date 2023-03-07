@@ -2,6 +2,9 @@ import User from "../Models/User.js";
 import otpGenerator from "otp-generator";
 import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+
+dotenv.config()
 
 var transporter = nodemailer.createTransport({
   service: "gmail",
@@ -27,6 +30,29 @@ export async function generateOTP(req, res) {
     from: "themohdhasnain@gmail.com", // sender address
     to: req.query.email, // list of receivers
     subject: "Reset Password", // Subject line
+    text: req.app.locals.OTP, // plain text body
+  });
+
+  res.status(201).send({ code: req.app.locals.OTP });
+}
+
+export async function generateRegisterOTP(req, res) {
+  const user = await User.findOne({ email: req.query.email });
+  if (user)
+    return res
+      .status(500)
+      .json({ error: "User with this email already exist!" });
+
+  req.app.locals.OTP = await otpGenerator.generate(6, {
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  });
+
+  await transporter.sendMail({
+    from: "themohdhasnain@gmail.com", // sender address
+    to: req.query.email, // list of receivers
+    subject: "Verify your account!", // Subject line
     text: req.app.locals.OTP, // plain text body
   });
 
